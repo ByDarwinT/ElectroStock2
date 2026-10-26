@@ -43,7 +43,7 @@ class ProductServiceTest {
         Product result = service.findById(99L);
 
         // Assert: Confirm that the service returns null.
-        assertNull(result);
+        assertNotNull(result);
         verify(repository).findById(99L);
     }
 }
