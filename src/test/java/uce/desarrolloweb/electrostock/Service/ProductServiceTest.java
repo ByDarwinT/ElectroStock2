@@ -29,4 +29,21 @@ class ProductServiceTest {
         assertSame(product, result);
         verify(repository).findById(1L);
     }
+    @Test
+    void shouldReturnNullWhenProductDoesNotExist() {
+        // Arrange: Simulate a repository without the requested product.
+        ProductRepository repository = mock(ProductRepository.class);
+
+        when(repository.findById(99L))
+                .thenReturn(Optional.empty());
+
+        ProductService service = new ProductService(repository);
+
+        // Act: Search for a product that does not exist.
+        Product result = service.findById(99L);
+
+        // Assert: Confirm that the service returns null.
+        assertNull(result);
+        verify(repository).findById(99L);
+    }
 }
