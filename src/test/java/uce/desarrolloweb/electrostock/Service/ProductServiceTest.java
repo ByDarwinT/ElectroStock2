@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import java.util.List;
 
 import uce.desarrolloweb.electrostock.Model.Product;
 import uce.desarrolloweb.electrostock.Repository.ProductRepository;
@@ -45,5 +46,27 @@ class ProductServiceTest {
         // Assert: Confirm that the service returns null.
         assertNull(result);
         verify(repository).findById(99L);
+    }
+    @Test
+    void shouldReturnAllProducts() {
+        // Arrange
+        ProductRepository repository = mock(ProductRepository.class);
+
+        Product firstProduct = new Product();
+        Product secondProduct = new Product();
+
+        List<Product> products = List.of(firstProduct, secondProduct);
+
+        when(repository.findAll()).thenReturn(products);
+
+        ProductService service = new ProductService(repository);
+
+        // Act
+        List<Product> result = service.findAll();
+
+        // Assert
+        assertEquals(2, result.size());
+        assertEquals(products, result);
+        verify(repository).findAll();
     }
 }
