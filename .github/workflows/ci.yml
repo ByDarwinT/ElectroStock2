@@ -24,3 +24,11 @@ jobs:
 
       - name: Build and test
         run: mvn -B verify
+
+      - name: Validate Docker Compose
+        env:
+          POSTGRES_PASSWORD: ci-validation-only
+        run: docker compose config --quiet
+
+      - name: Build Docker image
+        run: docker build -t electrostock2:ci .
